@@ -200,6 +200,15 @@ class TestMinCSS(unittest.TestCase):
         url = 'file://' + HERE + '/west.png'
         ok_('url("%s")' % url in after)
 
+    def test_multiple_media_selectors(self):
+        html = os.path.join(HERE, 'ten.html')
+        url = 'file://' + html
+        p = Processor()
+        p.process(url)
+
+        after = p.inlines[0].after
+        eq_(after, '''\n      @media screen and (max-width: 400px) {\n        @-ms-viewport {\n          width: 320px;\n        }\n      }\n    ''')
+
     @unittest.skip('This has always been failing')
     def test_download_with_phantomjs(self):
         html = os.path.join(HERE, 'one.html')
